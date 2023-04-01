@@ -1,7 +1,11 @@
 body {
-  background: #fafafa;
-  color: #333333;
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right bottom, #fbdb89, #FF00FF) no-repeat fixed;
   margin-top: 5rem;
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.4;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -12,24 +16,17 @@ h1, h2, h3, h4, h5, h6 {
   background-color: #5f788a;
 }
 
-.site-header .navbar-nav .nav-link {
-  color: #cbd5db;
-}
-
-.site-header .navbar-nav .nav-link:hover {
-  color: #ffffff;
-}
-
 .site-header .navbar-nav .nav-link.active {
   font-weight: 500;
 }
 
 .content-section {
-  background: #ffffff;
-  padding: 10px 20px;
-  border: 1px solid #dddddd;
-  border-radius: 3px;
-  margin-bottom: 20px;
+  width: 1000px;
+  margin: auto auto 100px;
+  padding: 90px;
+  background-color: #f2efee;
+  border-radius: 11px;
+  box-shadow: 0 2.4rem 4.8rem rgba(0, 0, 0, 0.15);
 }
 
 .article-title {
@@ -41,40 +38,40 @@ a.article-title:hover {
   text-decoration: none;
 }
 
-.article-content {
-  white-space: pre-line;
+.form-label {
+  font-family: 'Poppins', sans-serif;
+  font-weight: bolder;
+  font-size: 24px;
 }
 
-.article-img {
-  height: 65px;
-  width: 65px;
-  margin-right: 16px;
+.btn--form {
+  background-color: #f48982;
+  color: #fdf2e9;
+  align-self: end;
+  padding: 8px;
 }
 
-.article-metadata {
-  padding-bottom: 1px;
-  margin-bottom: 4px;
-  border-bottom: 1px solid #e3e3e3
-}
-
-.article-metadata a:hover {
-  color: #333;
+.btn,
+.btn:link,
+.btn:visited {
+  display: inline-block;
   text-decoration: none;
+  font-size: 20px;
+  font-weight: 600;
+  border-radius: 9px;
+  border: none;
+
+  cursor: pointer;
+  font-family: inherit;
+
+  transition: all 0.3s;
 }
 
-.article-svg {
-  width: 25px;
-  height: 25px;
-  vertical-align: middle;
+button {
+  outline: 1px solid #f48982;
 }
 
-.account-img {
-  height: 125px;
-  width: 125px;
-  margin-right: 20px;
-  margin-bottom: 16px;
-}
-
-.account-heading {
-  font-size: 2.5rem;
+.btn--form:hover {
+  background-color: #fdf2e9;
+  color: #f48982;
 }

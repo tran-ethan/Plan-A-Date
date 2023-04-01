@@ -36,7 +36,7 @@ def get_places(gender, age, day, time, interests, location=(45.5019, -74.57),
     }
     query = random.choice(genders[gender])
     print('first query ' + query)
-    results = gmaps.places(query=query, location=location, min_price=min_price, max_price=max_price, type=types)
+    results = gmaps.places(query=query, location=location, radius=20000, min_price=min_price, max_price=max_price, type=types)
     for result in results["results"]:
         pprint.pprint(result)
         formatted_address = result.get("formatted_address", "No data")
@@ -78,7 +78,7 @@ def get_places(gender, age, day, time, interests, location=(45.5019, -74.57),
     query = random.choice(hobbies[hobby])
     print('second query' + query)
 
-    results2 = gmaps.places(query=query, location=location, min_price=min_price, max_price=max_price, type=types)
+    results2 = gmaps.places(query=query, location=location, radius=20000, min_price=min_price, max_price=max_price, type=types)
     for result in results2["results"]:
         pprint.pprint(result)
         formatted_address = result.get("formatted_address", "No data")

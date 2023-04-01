@@ -9,7 +9,7 @@ class DataForm(FlaskForm):
 
     age = IntegerField('Age', validators=[DataRequired(), NumberRange(min=1)])
 
-    day = IntegerField('Day', validators=[DataRequired(), NumberRange(min=1, max=31)])
+    day = IntegerField('Day of the month', validators=[DataRequired(), NumberRange(min=1, max=31)])
 
     time = TimeField('Time', validators=[DataRequired()])
 

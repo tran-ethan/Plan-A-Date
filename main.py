@@ -1,5 +1,4 @@
 from flask import Flask, render_template, url_for, flash, redirect
-from flask_sqlalchemy import SQLAlchemy
 from forms import DataForm
 from logic import get_places, get_lat_long
 

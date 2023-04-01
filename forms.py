@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, SelectField, IntegerField, TimeField
+from wtforms import StringField, SubmitField, SelectField, IntegerField, TimeField, SelectMultipleField
 from wtforms.validators import DataRequired, Length, NumberRange
 
 
@@ -13,8 +13,9 @@ class DataForm(FlaskForm):
 
     time = TimeField('Time', validators=[DataRequired()])
 
-    interest_choices = [('sports', 'Sports'), ('music', 'Music'), ('movies', 'Movies'), ('books', 'Books')]
-    interests = SelectField('Interests', choices=interest_choices, validators=[DataRequired()])
+    interest_choices = [('sports', 'Sports'), ('music', 'Music'), ('entertainment', 'Entertainment'), ('books', 'Books'),
+                        ('shopping', 'Shopping'), ('food and drinks', 'Food and Drinks')]
+    interests = SelectMultipleField('Interests', choices=interest_choices, validators=[DataRequired()])
 
     postal_code = StringField('Postal Code', validators=[DataRequired(), Length(min=1, max=10)])
 

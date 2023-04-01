@@ -11,6 +11,9 @@ body {
 h1, h2, h3, h4, h5, h6 {
   color: #444444;
 }
+.text-align-center {
+  text-align: center;
+}
 
 .bg-steel {
   background-color: #5f788a;
@@ -29,26 +32,54 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: 0 2.4rem 4.8rem rgba(0, 0, 0, 0.15);
 }
 
+.title {
+  font-size: 86px;
+  background-image: linear-gradient(to right, #8e18d7, #d394f3);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.map-animation {
+  position: relative;
+  display: inline-flex;
+  transition: transform 0.3s ease-in-out;
+}
+
+.map-animation img {
+    display: none; /* hide the image by default */
+    position: relative;
+    top: -14px;
+}
+
+.map-animation:hover img {
+    display: inline-block; /* show the image when the container is hovered */
+}
+
 .article-title {
   color: #444444;
 }
 
+.article-content {
+  margin-bottom: 30px;
+}
 a.article-title:hover {
-  color: #428bca;
+  color: #A020F0;
   text-decoration: none;
+  transition-duration: 0.4s;
 }
 
 .form-label {
   font-family: 'Poppins', sans-serif;
   font-weight: bolder;
   font-size: 24px;
+  color: #c06fec;
 }
 
 .btn--form {
-  background-color: #f48982;
+  background-color: #c06fec;
   color: #fdf2e9;
   align-self: end;
-  padding: 8px;
+  padding: 10px 25px;
 }
 
 .btn,
@@ -68,10 +99,9 @@ a.article-title:hover {
 }
 
 button {
-  outline: 1px solid #f48982;
+  outline: 1px solid #FF00FF;
 }
 
 .btn--form:hover {
-  background-color: #fdf2e9;
-  color: #f48982;
+  background-color: #8e18d7;
 }

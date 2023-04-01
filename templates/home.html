@@ -3,7 +3,12 @@
     {% for place in data %}
         <article class="media content-section">
           <div class="media-body">
-            <h2><a class="article-title" href="#">{{ place['Name'] }}</a></h2>
+            <div class="map-animation">
+                <div>
+                    <h2><a class="article-title" href="{{ place['Maps'] }}" target="_blank">{{ place['Name'] }}</a></h2>
+                </div>
+                <img src="static/marker.png" alt="Your image">
+            </div>
             <p class="article-content">{{ place['Address'] }}</p>
             <p><strong>Phone number:</strong> {{ place['Phone number'] }}</p>
             <p><strong>Rating:</strong> {{ place['Rating'] }}</p>

@@ -1,65 +1,8 @@
+import os
+import random
 import googlemaps
-import sys
 from geopy.geocoders import Nominatim
-import pprint
 
-
-data = [{'Address': '40 R. de La Gauchetière O, Montréal, QC H2Z 1C1, Canada',
-  'Hours': ['Monday: 11:00\u202fAM\u2009–\u200910:00\u202fPM',
-            'Tuesday: 11:00\u202fAM\u2009–\u200910:00\u202fPM',
-            'Wednesday: 11:00\u202fAM\u2009–\u200910:00\u202fPM',
-            'Thursday: 11:00\u202fAM\u2009–\u200910:00\u202fPM',
-            'Friday: 11:00\u202fAM\u2009–\u200910:30\u202fPM',
-            'Saturday: 11:00\u202fAM\u2009–\u200910:30\u202fPM',
-            'Sunday: 11:00\u202fAM\u2009–\u200910:30\u202fPM'],
-  'Name': 'CoCo Fresh Tea & Juice Chinatown 都可珍珠奶茶',
-  'Phone number': '(438) 771-6688',
-  'Place ID': 'ChIJ5Z0OC1QbyUwRTklE42U_GSo',
-  'Price level': 'No data',
-  'Rating': 4,
-  'Website': None},
- {'Address': '90 R. de La Gauchetière O, Montréal, QC H2Z 1C1, Canada',
-  'Hours': ['Monday: 11:00\u202fAM\u2009–\u20099:30\u202fPM',
-            'Tuesday: 11:00\u202fAM\u2009–\u20099:30\u202fPM',
-            'Wednesday: 11:00\u202fAM\u2009–\u20099:30\u202fPM',
-            'Thursday: 11:00\u202fAM\u2009–\u20099:30\u202fPM',
-            'Friday: 11:00\u202fAM\u2009–\u200910:00\u202fPM',
-            'Saturday: 11:00\u202fAM\u2009–\u200910:00\u202fPM',
-            'Sunday: 11:00\u202fAM\u2009–\u20099:30\u202fPM'],
-  'Name': 'Yi Fang Taiwan Fruit Tea Chinatown Montreal',
-  'Phone number': '(514) 866-6565',
-  'Place ID': 'ChIJKaa-tZ8byUwRGrUg4btwr4k',
-  'Price level': 'No data',
-  'Rating': 4.5,
-  'Website': 'http://www.yifangquebec.com/'},
- {'Address': '71A R. de La Gauchetière O, Montréal, QC H2Z 1C2, Canada',
-  'Hours': ['Monday: 11:30\u202fAM\u2009–\u200910:00\u202fPM',
-            'Tuesday: 11:30\u202fAM\u2009–\u200910:00\u202fPM',
-            'Wednesday: 11:30\u202fAM\u2009–\u200910:00\u202fPM',
-            'Thursday: 11:30\u202fAM\u2009–\u200910:00\u202fPM',
-            'Friday: 11:30\u202fAM\u2009–\u200910:30\u202fPM',
-            'Saturday: 11:30\u202fAM\u2009–\u200910:30\u202fPM',
-            'Sunday: 11:30\u202fAM\u2009–\u200910:00\u202fPM'],
-  'Name': 'L2 Lounge',
-  'Phone number': '(514) 878-0572',
-  'Place ID': 'ChIJV-rdslEayUwRRcBCvcRp_-8',
-  'Price level': 1,
-  'Rating': 4.3,
-  'Website': 'http://www.l2bubbletea.com/'},
- {'Address': '393 Rue Saint-Jacques #149, Montréal, QC H2Y 1N9, Canada',
-  'Hours': ['Monday: 11:00\u202fAM\u2009–\u20098:00\u202fPM',
-            'Tuesday: 11:00\u202fAM\u2009–\u20098:00\u202fPM',
-            'Wednesday: 11:00\u202fAM\u2009–\u20098:00\u202fPM',
-            'Thursday: 11:00\u202fAM\u2009–\u20099:00\u202fPM',
-            'Friday: 11:00\u202fAM\u2009–\u20099:00\u202fPM',
-            'Saturday: 11:00\u202fAM\u2009–\u20099:00\u202fPM',
-            'Sunday: 11:00\u202fAM\u2009–\u20098:00\u202fPM'],
-  'Name': 'Bubble Tea Shop',
-  'Phone number': '(514) 288-4222',
-  'Place ID': 'ChIJG1Njs2sbyUwRlglb_KzPvyo',
-  'Price level': 'No data',
-  'Rating': 0,
-  'Website': 'https://bubbleteashop.com/?utm_source=G&utm_medium=LPM&utm_campaign=MTY'}]
 
 def get_lat_long(postal_code):
     # Returns (latitude, longitude) based off postal code
@@ -71,10 +14,27 @@ def get_lat_long(postal_code):
         return None
 
 
-def get_places(search_query="bubble tea", location=(45.5019, -74.57), min_price=None, max_price=None):
-    gmaps = googlemaps.Client(key='AIzaSyBZgZqccvdAkvMpA7BP-onQIGKaQwt54DM')
-    results = gmaps.places(query=search_query, location=location, min_price=min_price, max_price=max_price)
+def get_places(gender, age, day, time, interests, location=(45.5019, -74.57),
+               min_price=None, max_price=None):
+    if age < 13:
+        types = ["amusement_park", "aquarium", "bakery", "bowling_alley", "campground", "movie_theater", "museum",
+         "park", "pet_store", "playground", "school", "toy_store", "zoo"]
+    else:
+        types = None
+    gmaps = googlemaps.Client(key=os.environ.get('KEY'))
+
     places_list = []
+
+    # GENDER
+    if gender == 'other':
+        gender = random.choice(['male', 'female'])
+    genders = {
+        'male': ["sports", "games", "laser tag", "axe throwing", "escape room", "barbequeue", "minigolf", "bowling"],
+        'female': ["food festival", "karaoke", "spa", "resort", "walk", "cooking", "movie", "picnic", "pottery", "museum"]
+    }
+    query = random.choice(genders[gender]) + " " + random.choice(genders[gender])
+    print('first query ' + query)
+    results = gmaps.places(query=query, location=location, min_price=min_price, max_price=max_price, type=types)
     for result in results["results"]:
         formatted_address = result.get("formatted_address", "No data")
         name = result.get("name", "No data")
@@ -96,12 +56,87 @@ def get_places(search_query="bubble tea", location=(45.5019, -74.57), min_price=
             "Price level": price_level,
             "Hours": hours,
             "Phone number": phone_number,
-            "Website": url
+            "Website": url,
+            "Maps": f"https://www.google.com/maps/place/?q=place_id:{place_id}",
+            "Types": types
         })
 
+    # INTERESTS
+    hobbies = {
+        'sports': ['football', 'basketball', 'volleyball', 'tennis', 'golf', 'swimming', 'baseball', 'hockey', 'cricket','bowling', 'minigolf'],
+        'music': [x + " music" for x in ["pop", "rock", "jazz", "classical", "hip hop", "country", "blues", "electronic", "folk"]],
+        'shopping': ["groceries", "clothing", "electronics", "home goods", "books", "health and beauty", "toys", "sports equipment", "pet supplies", "gifts", "office supplies", "outdoor gear"],
+        'food and drinks': ["pizza", "hamburger", "sushi", "salad", "coffee", "tea", "juice", "water", "bubble tea", "restaurant", "wine tasting"],
+        'entertainment': ["cinema", "movies", "comedy show"],
+        'books': ["library", "bookstore", "school"]
+    }
+    # First interests
+    hobby = random.choice(interests)
+    query = random.choice(hobbies[hobby])
+    print('second query' + query)
+
+    results2 = gmaps.places(query=query, location=location, min_price=min_price, max_price=max_price, type=types)
+    for result in results2["results"]:
+        formatted_address = result.get("formatted_address", "No data")
+        name = result.get("name", "No data")
+        place_id = result.get("place_id", "No data")
+        rating = result.get("rating", "No data")
+        price_level = result.get("price_level", "No data")
+        types = result.get("types", "No data")
+        details = gmaps.place(place_id).get('result')
+        hours = details.get('current_opening_hours', "No data")
+        if hours != "No data":
+            hours = hours.get('weekday_text', "No data")
+        phone_number = details.get('formatted_phone_number')
+        url = details.get('website')
+        places_list.append({
+            "Name": name,
+            "Address": formatted_address,
+            "Place ID": place_id,
+            "Rating": rating,
+            "Price level": price_level,
+            "Hours": hours,
+            "Phone number": phone_number,
+            "Website": url,
+            "Maps": f"https://www.google.com/maps/place/?q=place_id:{place_id}",
+            "Types": types
+        })
+
+        # First interests
+        hobby = random.choice(interests)
+        query = random.choice(hobbies[hobby])
+        print('second query' + query)
+
+        results3 = gmaps.places(query=query, location=location, min_price=min_price, max_price=max_price, type=types)
+        for result in results3["results"]:
+            formatted_address = result.get("formatted_address", "No data")
+            name = result.get("name", "No data")
+            place_id = result.get("place_id", "No data")
+            rating = result.get("rating", "No data")
+            price_level = result.get("price_level", "No data")
+            types = result.get("types", "No data")
+            details = gmaps.place(place_id).get('result')
+            hours = details.get('current_opening_hours', "No data")
+            if hours != "No data":
+                hours = hours.get('weekday_text', "No data")
+            phone_number = details.get('formatted_phone_number')
+            url = details.get('website')
+            places_list.append({
+                "Name": name,
+                "Address": formatted_address,
+                "Place ID": place_id,
+                "Rating": rating,
+                "Price level": price_level,
+                "Hours": hours,
+                "Phone number": phone_number,
+                "Website": url,
+                "Maps": f"https://www.google.com/maps/place/?q=place_id:{place_id}",
+                "Types": types
+            })
+
+    # Filter out places that don't have time availabilities
+
+    # Shuffle places
+    random.shuffle(places_list)
+
     return places_list
-
-
-coordinates = get_lat_long("H3B 4G5")
-places = get_places("bubble tea", coordinates)
-pprint.pprint(places)

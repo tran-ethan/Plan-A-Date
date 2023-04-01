@@ -2,6 +2,7 @@ import os
 import random
 import googlemaps
 from geopy.geocoders import Nominatim
+import pprint
 
 
 def get_lat_long(postal_code):
@@ -33,10 +34,11 @@ def get_places(gender, age, day, time, interests, location=(45.5019, -74.57),
         'male': ["sports", "games", "laser tag", "axe throwing", "escape room", "barbequeue", "minigolf", "bowling"],
         'female': ["food festival", "karaoke", "spa", "resort", "walk", "cooking", "movie", "picnic", "pottery", "museum"]
     }
-    query = random.choice(genders[gender]) + " " + random.choice(genders[gender])
+    query = random.choice(genders[gender])
     print('first query ' + query)
     results = gmaps.places(query=query, location=location, min_price=min_price, max_price=max_price, type=types)
     for result in results["results"]:
+        pprint.pprint(result)
         formatted_address = result.get("formatted_address", "No data")
         name = result.get("name", "No data")
         place_id = result.get("place_id", "No data")
@@ -78,6 +80,7 @@ def get_places(gender, age, day, time, interests, location=(45.5019, -74.57),
 
     results2 = gmaps.places(query=query, location=location, min_price=min_price, max_price=max_price, type=types)
     for result in results2["results"]:
+        pprint.pprint(result)
         formatted_address = result.get("formatted_address", "No data")
         name = result.get("name", "No data")
         place_id = result.get("place_id", "No data")
